@@ -1,0 +1,42 @@
+### 1. Obtener todos los Autores
+GET http://localhost:3000/api/autores
+
+### 2. Crear un Autor 
+POST http://localhost:3000/api/autores
+Content-Type: application/json
+
+{
+    "nombre": "Jampier Cabrera",
+    "email": "jampier.cabrera@example.com",
+    "imagen": "https://randomuser.me/api/portraits/women/2.jpg"
+}
+
+### 3. Obtener todos los Posts con los autores incrustados
+GET http://localhost:3000/api/posts
+
+### 4. Crear un Post asociado a un Autor (El autor_id ha de existir dentro de la DB)
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+    "titulo": "Mi primer post en el Blog",
+    "descripcion": "Esta es la descripción detallada del post de prueba.",
+    "categoria": "Tecnología",
+    "autor_id": 1
+}
+
+### 5. Obtener los posts de un Autor en concreto (Prueba con un ID de tu DB)
+GET http://localhost:3000/api/posts/autor/1
+
+### 6. Comprobar middlewares: Crear un post sin autor_id (Obtenemos error 400)
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+    "titulo": "Post inválido",
+    "descripcion": "No tiene autor",
+    "categoria": "Pruebas"
+}
+
+### 7. Comprobar middlewares: Obtener posts de un autor que no existe (Obtenemos error 404)
+GET http://localhost:3000/api/posts/autor/9999
