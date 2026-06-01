@@ -14,13 +14,21 @@ const createAuthor = async (req, res) => {
         // 1. Insertamos el autor y obtenemos el ID generado
         const insertId = await AutoresModel.create(req.body);
         
-        // 2. Devolvemos el ID generado fusionado con los datos que ya teníamos en req.body
+        // 2. Devolvemos el ID generado fusionado con los datos
         res.status(201).json({
             message: 'Autor creado exitosamente',
             id: insertId,
             ...req.body
         });
     } catch (error) {
+        // Atrapamos específicamente el error de duplicado de MySQL
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ 
+                message: 'Ya existe un autor registrado con este email.' 
+            });
+        }
+
+        // Si es otro tipo de error, sí devolvemos el 500
         console.error('Error al crear autor:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }

@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { getAllAuthors, createAuthor } = require('../../controllers/autores.controller');
-const { checkAuthorData } = require('../../middleware/validators.middleware');
+const { validateSchema } = require('../../middleware/validation.middleware'); // <-- Actualizado
+const { autorSchema } = require('../../schemas/autores.schema');
 
 router.get('/', getAllAuthors);
-router.post('/', checkAuthorData, createAuthor);
+router.post('/', validateSchema(autorSchema), createAuthor);
 
 module.exports = router;
